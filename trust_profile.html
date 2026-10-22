@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block title %}Trust Profile{% endblock %}
+{% block content %}<div class="form-page"><span class="eyebrow">ORGANIZATION PROFILE</span><h1 class="fw-bold mt-2">Trust / NGO details</h1><p class="text-secondary">Your profile will not appear as verified until an admin checks the information.</p>
+<form method="post" class="panel-form"><div class="row g-3">
+<div class="col-12"><label class="form-label">Organization name *</label><input class="form-control" name="organization_name" required value="{{ trust.organization_name if trust else '' }}"></div>
+<div class="col-12"><label class="form-label">Full address *</label><input class="form-control" name="address" required value="{{ trust.address if trust else '' }}"></div>
+<div class="col-md-6"><label class="form-label">City *</label><input class="form-control" name="city" required value="{{ trust.city if trust else '' }}"></div>
+<div class="col-md-6"><label class="form-label">Contact phone</label><input class="form-control" name="phone" value="{{ user.phone or '' }}"></div>
+<div class="col-md-6"><label class="form-label">Latitude</label><input class="form-control" type="number" step="any" name="latitude" value="{{ trust.latitude if trust and trust.latitude else '' }}"></div>
+<div class="col-md-6"><label class="form-label">Longitude</label><input class="form-control" type="number" step="any" name="longitude" value="{{ trust.longitude if trust and trust.longitude else '' }}"></div>
+<div class="col-12"><label class="form-label">Organization description</label><textarea class="form-control" name="description" rows="3">{{ trust.description if trust else '' }}</textarea></div>
+<div class="col-12"><button class="btn btn-success">Save profile</button></div></div></form></div>{% endblock %}

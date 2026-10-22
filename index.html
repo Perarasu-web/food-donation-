@@ -1,0 +1,20 @@
+{% extends "base.html" %}{% block title %}Home{% endblock %}
+{% block content %}
+<section class="hero rounded-4 p-4 p-lg-5 mb-4">
+  <div class="row align-items-center g-4"><div class="col-lg-7">
+    <span class="eyebrow">FOOD RESCUE · COMMUNITY CARE</span>
+    <h1 class="display-5 fw-bold mt-3">Good food belongs on a plate, <span class="text-green">not in the bin.</span></h1>
+    <p class="lead text-secondary mt-3">Connect surplus food from marriage halls, hotels and events with verified trusts and community organizations nearby.</p>
+    <div class="d-flex flex-wrap gap-2 mt-4"><a class="btn btn-success btn-lg" href="{{ url_for('register') }}">Start donating <span aria-hidden="true">→</span></a><a class="btn btn-outline-success btn-lg" href="{{ url_for('login') }}">Sign in</a></div>
+  </div><div class="col-lg-5"><div class="hero-card"><div class="food-emoji">🥘</div><h4>One event. Extra meals. A better outcome.</h4><p class="mb-0 text-secondary">List safe surplus food, find a nearby trust, and track pickup to delivery.</p><div class="leaf-deco">✳</div></div></div></div>
+</section>
+<div class="row g-3 mb-5">
+  <div class="col-md-4"><div class="stat-card"><div class="stat-icon">🤝</div><div class="stat-number">{{ stats.donations }}</div><div class="text-secondary">Donations accepted or delivered</div></div></div>
+  <div class="col-md-4"><div class="stat-card"><div class="stat-icon">⚖️</div><div class="stat-number">{{ "%.1f"|format(stats.kg) }} kg</div><div class="text-secondary">Food in accepted donations</div></div></div>
+  <div class="col-md-4"><div class="stat-card"><div class="stat-icon">🏡</div><div class="stat-number">{{ stats.trusts }}</div><div class="text-secondary">Verified trust profiles (demo included)</div></div></div>
+</div>
+<section class="mb-5"><div class="d-flex justify-content-between align-items-end mb-3"><div><span class="eyebrow">HOW IT WORKS</span><h2 class="fw-bold mt-2">Three simple steps</h2></div></div>
+<div class="row g-3"><div class="col-md-4"><div class="feature-card"><span class="step">01</span><h5>List surplus food</h5><p>Enter quantity, preparation time, storage conditions and pickup deadline.</p></div></div><div class="col-md-4"><div class="feature-card"><span class="step">02</span><h5>Find a nearby trust</h5><p>See verified organizations and approximate distance on a map.</p></div></div><div class="col-md-4"><div class="feature-card"><span class="step">03</span><h5>Track the donation</h5><p>Follow acceptance, pickup and delivery updates in one place.</p></div></div></div>
+</section>
+<div class="safety-banner"><strong>Food safety comes first.</strong> This app records donor-provided details; it does not certify food as safe. Never donate food that may be unsafe, and follow applicable food-safety guidance.</div>
+{% endblock %}

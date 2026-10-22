@@ -1,0 +1,18 @@
+{% extends "base.html" %}{% block title %}Nearby Trusts{% endblock %}
+{% block head %}<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">{% endblock %}
+{% block content %}<div class="page-heading"><div><span class="eyebrow">LOCAL FOOD RESCUE</span><h1 class="fw-bold mt-2">Find nearby trusts</h1><p class="text-secondary">{% if donation %}For donation: {{ donation.food_name }} · {{ donation.quantity_kg }} kg{% else %}Verified trust profiles with available location data appear on the map.{% endif %}</p></div></div>
+<div class="alert alert-info small">Distances are approximate straight-line distances when GPS coordinates are available. Confirm the address and collection ability directly with the organization. Demo entries are clearly marked.</div>
+<div id="map" class="map-panel mb-4"></div>
+<div class="row g-3">{% for item in items %}{% set t = item.trust %}<div class="col-lg-6"><div class="trust-card"><div class="d-flex justify-content-between gap-2"><div><h5 class="fw-bold mb-1">{{ t.organization_name }}</h5><span class="verified-pill">✓ Admin verified</span></div>{% if item.distance is not none %}<span class="distance">{{ "%.1f"|format(item.distance) }} km</span>{% else %}<span class="distance">Distance unavailable</span>{% endif %}</div><p class="mt-3 mb-1">{{ t.address }}</p><p class="text-secondary small">{{ t.city }}</p>{% if t.description %}<p class="small text-secondary">{{ t.description }}</p>{% endif %}
+<div class="d-flex flex-wrap gap-2"><a class="btn btn-sm btn-outline-success" target="_blank" rel="noopener" href="https://www.openstreetmap.org/search?query={{ (t.address ~ ', ' ~ t.city)|urlencode }}">View address</a>
+{% if donation %}<form method="post" action="{{ url_for('send_request', donation_id=donation.id) }}"><input type="hidden" name="trust_id" value="{{ t.id }}"><button class="btn btn-sm btn-success">Send donation request</button></form>{% endif %}</div></div></div>{% else %}<div class="col-12"><div class="empty-state"><h4>No verified trusts found yet</h4><p>Ask organizations to register, then an admin must verify their details.</p></div></div>{% endfor %}</div>
+{% endblock %}
+{% block scripts %}<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script>
+const trusts = {{ items|map(attribute='trust')|list|tojson }};
+const map = L.map('map').setView([11.6643,78.1460], 7);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+const points=[];
+trusts.forEach(t=>{if(t.latitude!==null && t.longitude!==null){const marker=L.marker([t.latitude,t.longitude]).addTo(map).bindPopup('<strong>'+String(t.organization_name).replace(/[&<>"]/g,'')+'</strong><br>'+String(t.city).replace(/[&<>"]/g,''));points.push([t.latitude,t.longitude]);}});
+{% if donor_lat and donor_lon %}L.circleMarker([{{ donor_lat }},{{ donor_lon }}],{radius:8,color:'#d97706'}).addTo(map).bindPopup('Donation pickup location');points.push([{{ donor_lat }},{{ donor_lon }}]);{% endif %}
+if(points.length){map.fitBounds(points,{padding:[30,30],maxZoom:13});}
+</script>{% endblock %}

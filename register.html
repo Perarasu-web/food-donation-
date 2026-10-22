@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block title %}Register{% endblock %}
+{% block content %}<div class="auth-wrap"><div class="auth-card"><span class="eyebrow">JOIN THE COMMUNITY</span><h2 class="fw-bold mt-2">Create an account</h2><form method="post">
+<label class="form-label">Full name</label><input class="form-control mb-3" name="name" required maxlength="100">
+<label class="form-label">Email</label><input class="form-control mb-3" type="email" name="email" required>
+<label class="form-label">Phone (optional)</label><input class="form-control mb-3" name="phone" maxlength="30">
+<label class="form-label">I am registering as</label><select class="form-select mb-3" name="role"><option value="donor">Food donor (marriage hall / hotel / caterer)</option><option value="trust">Trust / NGO</option></select>
+<label class="form-label">Password (minimum 8 characters)</label><input class="form-control mb-3" type="password" name="password" minlength="8" required>
+<button class="btn btn-success w-100 py-2">Create account</button></form><p class="mt-3 mb-0">Already registered? <a href="{{ url_for('login') }}">Log in</a></p></div></div>{% endblock %}
